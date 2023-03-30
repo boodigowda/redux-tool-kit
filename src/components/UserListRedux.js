@@ -1,36 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getPosts } from "../redux/features/UserListSlice";
 
-const UserList = () => {
-  let [state, setState] = useState({
-    loading: false,
-    users: [],
-    errorMessage: "",
-  });
+const UserListRedux = () => {
+  const userState = useSelector((state)=>{
+    return state.users
+  })
+  console.log("UserState " +userState)
+  let dispatch = useDispatch();
 
   useEffect(() => {
-    setState({ ...state, loading: true });
-    let dataUrl = `https://jsonplaceholder.typicode.com/users`;
-    axios
-      .get(dataUrl)
-      .then((response) => {
-        setState({
-          ...state,
-          users: response.data,
-          loading: false,
-        });
-      })
-      .catch((error) => {
-        setState({
-          ...state,
-          errorMessage: error,
-          loading: false,
-        });
-      });
+    dispatch(getPosts())
   }, []);
 
-  let { loading, errorMessage, users } = state;
+  let { loading, errorMessage, users } = userState;
   return (
     <React.Fragment>
       <div className="container mt-3">
@@ -48,10 +32,10 @@ const UserList = () => {
         <div className="row">
           <div className="col">
             {loading && <h2 className="fw-bold">...Loading</h2>}
-            {!loading && errorMessage.length > 0 && (
+            {!loading &&  (
               <h3 className="text-danger">{errorMessage}</h3>
             )}
-            {!loading && users.length > 0 && (
+            {!loading && (
               <table className="table table-hover text-center table-sthiped">
                 <thead className="bg-primary text-white">
                   <tr>
@@ -64,7 +48,7 @@ const UserList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => {
+                  {users && users.map((user) => {
                     return (
                       <tr key={user.id}>
                         <td>{user.id}</td>
@@ -86,4 +70,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default UserListRedux;
