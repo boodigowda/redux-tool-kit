@@ -7,6 +7,7 @@ import EmployeesRedux from './components/EmployeesRedux';
 import Home from './components/Home';
 import Navbar from './components/Navbar';
 import UserList from './components/UserList';
+import UserListRedux from './components/UserListRedux';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
         <Route path={'/employees'} element={<EmployeesRedux/>}/>
         {/* <Route path={'/counter'} element={<Counter/>}/> */}
         <Route path={'/counter'} element={<CounterRedux/>}/>
-        <Route path={'/users'} element={<UserList/>}/>
+        {/* <Route path={'/users'} element={<UserList/>}/> */}
+        <Route path={'/users'} element={<UserListRedux/>}/>
       </Routes>
     </React.Fragment>
   );
