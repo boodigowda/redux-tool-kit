@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Counter from './components/Counter';
 import CounterRedux from './components/CounterRedux';
@@ -13,12 +13,14 @@ function App() {
   // ONCE WE RELOAD THE PAGE, PAGE WILL NAVIGATE TO THE HOME PAGE
   // const navigate = useNavigate();
   // useEffect(() => {
-  //   const navigationEntries = window.performance.getEntriesByType('navigation');
-  //   if (navigationEntries.length > 0 && navigationEntries[0].type === 'reload') {
+  //   const handleReload = (event) => {
   //     navigate('/')
-  //     console.log("Page was reloaded");
-  //   }
-  // }, []);
+  //   };
+  //   window.addEventListener("load", handleReload);
+  //   return () => {
+  //     window.removeEventListener("load", handleReload);
+  //   };
+  // }, [navigate]);
 
   return (
     <React.Fragment>
