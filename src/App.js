@@ -8,6 +8,7 @@ import Home from './components/Home';
 import Navbar from './components/Navbar';
 import UserList from './components/UserList';
 import UserListRedux from './components/UserListRedux';
+import AntD from './components/AntD';
 
 function App() {
   // ONCE WE RELOAD THE PAGE, PAGE WILL NAVIGATE TO THE HOME PAGE
@@ -33,6 +34,7 @@ function App() {
         <Route path={'/counter'} element={<CounterRedux />} />
         {/* <Route path={'/users'} element={<UserList/>}/> */}
         <Route path={'/users'} element={<UserListRedux />} />
+        <Route path={'/antd'} element={<AntD />} />
       </Routes>
     </React.Fragment>
   );
