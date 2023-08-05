@@ -2,8 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {
-  return (
-    <React.Fragment>
+    return (
+        <React.Fragment>
             <nav className="navbar navbar-dark bg-dark navbar-expand-sm">
                 <div className="container">
                     <Link to={'/'} className="navbar-brand">Redux Toolkit</Link>
@@ -17,16 +17,19 @@ const Navbar = () => {
                             </li>
                             <li className="nav-item">
                                 <Link to={'/users'} className="nav-link">Users</Link>
-                          </li>
-                          <li className="nav-item">
+                            </li>
+                            <li className="nav-item">
                                 <Link to={'/antd'} className="nav-link">AntD</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to={'/faas'} className="nav-link">FaaS</Link>
                             </li>
                         </ul>
                     </div>
                 </div>
             </nav>
         </React.Fragment>
-  )
+    )
 }
 
 export default Navbar

@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import UserList from './components/UserList';
 import UserListRedux from './components/UserListRedux';
 import AntD from './components/AntD';
+import FaaS from './components/Faas';
 
 function App() {
   // ONCE WE RELOAD THE PAGE, PAGE WILL NAVIGATE TO THE HOME PAGE
@@ -35,6 +36,7 @@ function App() {
         {/* <Route path={'/users'} element={<UserList/>}/> */}
         <Route path={'/users'} element={<UserListRedux />} />
         <Route path={'/antd'} element={<AntD />} />
+        <Route path={'/faas'} element={<FaaS />} />
       </Routes>
     </React.Fragment>
   );
