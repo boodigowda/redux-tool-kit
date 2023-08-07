@@ -1,14 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Form, Input, Table, Button, Space } from "antd";
-// import OrderLineForm from "../../AddOrderLine";
+import { Form, Input, Table, Button, Space, Select } from "antd";
 import AntD from "./AntD"
-// import { Form, Input, Select, DatePicker, Table, Button, Space } from "antd";
-// import { DownOutlined } from "@ant-design/icons";
-// import dayjs from "dayjs";
-// const dateFormat = "YYYY/MM/DD"
-// const customFormat = (value) => {
-//     dayjs(value,dateFormat).format(dateFormat)
-// }
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
     const [form] = Form.useForm();
@@ -41,13 +33,22 @@ const EditableCell = ({
     const toggleEdit = () => {
         setEditing(!editing);
         form.setFieldsValue({
-            [dataIndex]: record[dataIndex], 
+            [dataIndex]: record[dataIndex],
         });
     };
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [clearData, setclearData] = useState(false);
+    const [uom, setUom] = useState("")
     const handleCreate = (data) => {
-        handleSave(data)
+        if (data) {
+            let finalObject = {
+                key: data[0].key.replace(/_/g, '__'),
+                value: "",
+                children: data
+            };
+            handleSave(finalObject)
+        }
+
         setIsModalVisible(false)
     }
     const handleCancel = () => {
@@ -71,6 +72,7 @@ const EditableCell = ({
     };
     let childNode = children;
     if (editable) {
+        let Key = record.key.replace(/_\d+$/, '');
         childNode = editing ? (
             <Form.Item
                 style={{
@@ -85,29 +87,25 @@ const EditableCell = ({
                 ]}
             >
                 {
-                    // record.key === "quantity.uom" ?
-                    // <Select ref={inputRef} onPressEnter={save} onBlur={save} defaultValue={record.value} options={[
-                    //   {value:"Each"},
-                    //   {value:"Each PEB"},
-                    //   {value:"K"},
-                    //   {value:"Pure Weighted"},
-                    // ]}/>
-                    // : record.key === "isSubstitutionAllowed" ?
-                    // <Select ref={inputRef} onPressEnter={save} onBlur={save} defaultValue={record.value} options={[
-                    //   {value:"true"},
-                    //   {value:"false"}
-                    // ]}/>
-                    // : record.key === "isManualSubAllowed" ?
-                    // <Select ref={inputRef} onPressEnter={save} onBlur={save} defaultValue={record.value} options={[
-                    //   {value:"true"},
-                    //   {value:"false"}
-                    // ]}/>
-                    // // : record.key === "orderDueDate" || record.key === "orderDates.customerPickUpByDate" ?
-                    // //   <DatePicker ref={inputRef} onPressEnter={save} onBlur={save} defaultValue={dayjs(record.value).toDate()} format='YYYY-MM-DDTHH:mm:ss.SSS[Z]'/>
-
-                    //   :
-
-                    <Input onPressEnter={save} ref={inputRef} />
+                    Key === "quantity.uom" ?
+                        <Select ref={inputRef} value={uom} onPressEnter={save} onBlur={save} options={[
+                            { value: "Each" },
+                            { value: "Each PEB" },
+                            { value: "K" },
+                            { value: "Pure Weighted" },
+                        ]} />
+                        : Key === "isSubstitutionAllowed" ?
+                            <Select ref={inputRef} onPressEnter={save} onBlur={save} defaultValue={record.value} options={[
+                                { value: "true" },
+                                { value: "false" }
+                            ]} />
+                            : Key === "isManualSubAllowed" ?
+                                <Select ref={inputRef} onPressEnter={save} onBlur={save} defaultValue={record.value} options={[
+                                    { value: "true" },
+                                    { value: "false" }
+                                ]} />
+                                :
+                                <Input onPressEnter={save} onBlur={save} ref={inputRef} />
                 }
             </Form.Item>
         ) : (
@@ -167,43 +165,43 @@ const EditableTable = ({ tableData, syncChangesInParent }) => {
                 ...row,
             });
         } else {
-            function findObjectIndexRecursive(arr, currentRow, parentIndex = []) {
+            function findKeyIndices(arr, keyToFind) {
                 for (let i = 0; i < arr.length; i++) {
-                    const currentObject = arr[i];
-
-                    if (currentObject.key === currentRow.key) {
-                        return { parentIndex, childIndex: i };
-                    }
-
-                    if (currentObject.children && currentObject.children.length > 0) {
-                        const result = findObjectIndexRecursive(currentObject.children, currentRow, [...parentIndex, i]);
-                        if (result) {
-                            return result;
+                    if (Array.isArray(arr[i].children)) {
+                        const innerIndices = findKeyIndices(arr[i].children, keyToFind);
+                        if (innerIndices.length > 0) {
+                            return [i, ...innerIndices];
                         }
-                        if (currentObject.key === "orderLines" && currentRow.children.length > 1) {
-                            return currentRow
+                    } else {
+                        if (arr[i].key === keyToFind) {
+                            return [i];
                         }
                     }
                 }
-
-                return null;
+                return [];
             }
 
-            const result = findObjectIndexRecursive(newData, row);
+            const result = findKeyIndices(newData, row.key);
             if (result) {
-                if (result.children.length > 5) {
+                let isOrderLineAdd = row?.key?.substring(0, row.key.length - 2);
+                if (isOrderLineAdd === "lineNbr_") {
                     newData.map((item) => {
                         if (item.key === "orderLines") {
-                            item.children.push(result)
+                            item.children.push(row)
                         }
+                        return null
                     })
                 } else {
-                    const { parentIndex, childIndex } = result
-                    if (parentIndex.length > 1) {
-                        const [nestedParentIndex, nestedSubParentIndex] = parentIndex
-                        newData[nestedParentIndex]?.children[nestedSubParentIndex]?.children.splice(childIndex, 1, row);
+                    const [parentIndex, childIndex, thiredIndex, forthIndex] = result
+                    if (result.length === 4) {
+                        newData[parentIndex]?.children[childIndex]?.children[thiredIndex]?.children.splice(forthIndex, 1, row);
                     }
-                    else newData[parentIndex]?.children.splice(childIndex, 1, row);
+                    if (result.length === 3) {
+                        newData[parentIndex]?.children[childIndex]?.children.splice(thiredIndex, 1, row);
+                    }
+                    if (result.length === 2) {
+                        newData[parentIndex]?.children.splice(childIndex, 1, row);
+                    }
                 }
             }
 

@@ -8,35 +8,67 @@ const OrderLineForm = ({ visible, onOk, onCancel, clearData, setclearData }) => 
     const [form] = Form.useForm();
     const formRef = useRef(null);
     const formInstance = formRef.current;
+    let mainKey = ""
 
-    const convertObjectToKeyValue = (formValues) => {
-        const resArray = [];
-        for (const key in formValues) {
-            if (typeof formValues[key] === "object" && formValues[key] !== null) {
-                const innerArray = convertObjectToKeyValue(formValues[key]);
-                if (innerArray.length > 0) {
-                    resArray.push({ key, value: "", children: innerArray });
-                } else {
-                    resArray.push({ key, value: formValues[key] });
-                }
+    function flattenObject(obj, parentKey = "") {
+        let flattenedArray = [];
+
+        for (const key in obj) {
+            if (Array.isArray(obj[key])) {
+                const childrenArray = obj[key].map((item) => flattenObject(item));
+                flattenedArray.push({ key: `${key + "_" + mainKey}`, value: '', children: childrenArray.flat() });
+            } else if (typeof obj[key] === "object" && obj[key] !== null) {
+                const nestedArray = flattenObject(obj[key], `${parentKey}${key}.`);
+                flattenedArray = flattenedArray.concat(nestedArray);
             } else {
-                resArray.push({ key, value: formValues[key] });
+                const flatKey = `${parentKey}${key}`;
+                const value = obj[key] === null ? null : (typeof obj[key] === "string" ? obj[key] : JSON.stringify(obj[key]));
+                flattenedArray.push({ key: `${flatKey + "_" + mainKey}`, value: value });
             }
         }
 
-        let modifiedArray = resArray?.slice();
-        modifiedArray.shift();
-        let finalArray = {
-            key: `${resArray[0].key + " " + resArray[0].value}`,
-            value: resArray[0].value,
-            children: modifiedArray
-        }
-        return finalArray;
+        return flattenedArray;
     }
 
     const handleFormSubmit = () => {
         formInstance?.validateFields().then((values) => {
-            onOk(convertObjectToKeyValue(values))
+            mainKey = values.lineNbr
+            let constantValues = {
+                "lineDisplayAttributes": {
+                    "itemNbr": "570178682",
+                    "color": "Pink"
+                },
+                "metafields": {
+                    "minIdealPickDays": 0,
+                    "maxIdealPickDays": 0,
+                    "isSellbyDateRequired": false,
+                    "isOrderByQuantity": true
+                },
+                "locations": [
+                    {
+                        "zoneName": "W",
+                        "aisleName": "2",
+                        "sectionName": "9",
+                        "type": "SALESFLOOR",
+                        "sectionId": "1",
+                        "positionSeqNbr": 1,
+                        "shelfIds": 2,
+                        "shelfPosition": 3
+                    }
+                ],
+                "products": [
+                    {
+                        "productId": "873624",
+                        "type": "ORDERED",
+                        "barcode": "42800109538",
+                        "barcodeType": "GTIN"
+                    }
+                ]
+            }
+            let createdObjects = values;
+
+            let updatedObject = { ...createdObjects, ...constantValues };
+            onOk(flattenObject(updatedObject))
         });
     }
 
@@ -67,12 +99,12 @@ const OrderLineForm = ({ visible, onOk, onCancel, clearData, setclearData }) => 
                                 <Form.Item style={formItemStyle} label="Quantity">
                                     <Row gutter={16}>
                                         <Col span={12}>
-                                            <Form.Item style={formItemStyle} name='quantity.value' noStyle>
+                                            <Form.Item style={formItemStyle} name={['quantity', 'value']} noStyle>
                                                 <Input placeholder='select quantity' />
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-                                            <Form.Item name='quantity.uom' noStyle>
+                                            <Form.Item name={['quantity', 'uom']} noStyle>
                                                 <Select placeholder='select unit' style={{ width: '100%' }}>
                                                     <Option value="EACH">EACH</Option>
                                                     <Option value="Each PEB">Each PEB</Option>
@@ -136,7 +168,7 @@ const OrderLineForm = ({ visible, onOk, onCancel, clearData, setclearData }) => 
                                 </Form.Item>
                             </Col>
                             <Col span={12}>
-                                <Form.Item style={formItemStyle} label="Department No" name="department.deptNbr">
+                                <Form.Item style={formItemStyle} label="Department No" name={['department', 'deptNbr']}>
                                     <Input />
                                 </Form.Item>
                             </Col>

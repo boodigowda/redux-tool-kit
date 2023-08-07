@@ -80,54 +80,6 @@ const initialData = {
         },
         "orderLines": [
             {
-                "lineNbr": 1,
-                "quantity": {
-                    "value": 5,
-                    "uom": "EACH"
-                },
-                "isSubstitutionAllowed": true,
-                "isManualSubAllowed": true,
-                "itemOnHandQty": 63,
-                "webUnitPrice": 4.0,
-                "storeUnitPrice": 4.38,
-                "itemNbr": 570178682,
-                "itemDesc": "TTNO PZ RL PEPP 50CT",
-                "imageUrl": "https://i5.walmartimages.com/asr/41456e26-5907-4b47-919ff795960c9a79_1.96f4c097407ed2b7d5e887113152ee9c.jpeg",
-                "department": {
-                    "deptNbr": 78
-                },
-                "lineDisplayAttributes": {
-                    "itemNbr": "570178682",
-                    "color": "Pink"
-                },
-                "metafields": {
-                    "minIdealPickDays": 0,
-                    "maxIdealPickDays": 0,
-                    "isSellbyDateRequired": false,
-                    "isOrderByQuantity": true
-                },
-                "locations": [
-                    {
-                        "zoneName": "W",
-                        "aisleName": "2",
-                        "sectionName": "9",
-                        "type": "SALESFLOOR",
-                        "sectionId": "1",
-                        "positionSeqNbr": 1,
-                        "shelfIds": 2,
-                        "shelfPosition": 3
-                    }
-                ],
-                "products": [
-                    {
-                        "productId": "873624",
-                        "type": "ORDERED",
-                        "barcode": "42800109538",
-                        "barcodeType": "GTIN"
-                    }
-                ]
-            },
-            {
                 "lineNbr": 2,
                 "quantity": {
                     "value": 5,
@@ -261,14 +213,22 @@ const FaaS = () => {
         for (const key in obj) {
             if (Array.isArray(obj[key])) {
                 const childrenArray = obj[key].map((item) => flattenObject(item));
-                if (key === "orderLines") {
+                if (childrenArray.length > 1 || key === "orderLines") {
+                    childrenArray.map((item) => {
+                        return item.forEach((obj) => {
+                            obj.key = `${obj.key + "_" + item[0].value}`;
+                            if (obj.children) {
+                                obj.children.forEach((subItem) => {
+                                    subItem.key = `${subItem.key + "_" + item[0].value}`;
+                                });
+                            }
+                        });
+                    })
                     let orderLineArray = childrenArray.map((arr) => {
-                        let modifiedArray = arr.slice();
-                        modifiedArray.shift();
                         return {
-                            key: arr[0].key,
-                            value: arr[0].value,
-                            children: modifiedArray
+                            key: arr[0].key.replace(/_/g, '__'),
+                            value: "",
+                            children: arr
                         }
                     })
                     flattenedArray.push({ key: parentKey + key, value: '', children: orderLineArray });
