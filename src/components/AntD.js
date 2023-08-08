@@ -8,31 +8,47 @@ const OrderLineForm = ({ visible, onOk, onCancel, clearData, setclearData }) => 
     const [form] = Form.useForm();
     const formRef = useRef(null);
     const formInstance = formRef.current;
-    let mainKey = ""
+    const uniqueKeyGenerator = (() => {
+        let counter = 0;
+
+        return () => {
+            counter++;
+            return `o${counter}`;
+        };
+    })();
 
     function flattenObject(obj, parentKey = "") {
         let flattenedArray = [];
-
         for (const key in obj) {
             if (Array.isArray(obj[key])) {
                 const childrenArray = obj[key].map((item) => flattenObject(item));
-                flattenedArray.push({ key: `${key + "_" + mainKey}`, value: '', children: childrenArray.flat() });
+                if (childrenArray.length > 1 || key === "orderLines") {
+                    let orderLineArray = childrenArray.map((arr) => {
+                        return {
+                            key: uniqueKeyGenerator(),
+                            label: `${arr[0].label + "_" + arr[0].value}`,
+                            value: "",
+                            children: arr
+                        }
+                    })
+                    flattenedArray.push({ key: uniqueKeyGenerator(), label: parentKey + key, children: orderLineArray });
+                } else {
+                    flattenedArray.push({ key: uniqueKeyGenerator(), label: parentKey + key, children: childrenArray.flat() });
+                }
             } else if (typeof obj[key] === "object" && obj[key] !== null) {
                 const nestedArray = flattenObject(obj[key], `${parentKey}${key}.`);
                 flattenedArray = flattenedArray.concat(nestedArray);
             } else {
-                const flatKey = `${parentKey}${key}`;
+                const flatKey = `${parentKey}${key} `;
                 const value = obj[key] === null ? null : (typeof obj[key] === "string" ? obj[key] : JSON.stringify(obj[key]));
-                flattenedArray.push({ key: `${flatKey + "_" + mainKey}`, value: value });
+                flattenedArray.push({ key: uniqueKeyGenerator(), label: flatKey.trim(), value: value });
             }
         }
-
         return flattenedArray;
     }
 
     const handleFormSubmit = () => {
         formInstance?.validateFields().then((values) => {
-            mainKey = values.lineNbr
             let constantValues = {
                 "lineDisplayAttributes": {
                     "itemNbr": "570178682",

@@ -39,31 +39,29 @@ const items = [
 
 const initialData = {
     "order": {
-        "orderId": "201689950019888",
-        "customerOrderId": "1689950019890",
+        "orderId": "201691077321880",
+        "customerOrderId": "1691077321882",
         "orderSource": "ASDA",
         "customer": {
             "id": "10000550125",
             "contact": {
                 "name": {
-                    "firstName": "Karthik",
+                    "firstName": "Jarvis",
                     "lastName": "Automation"
                 }
             }
         },
         "paymentAuthStatus": "Success",
-        "orderDueDate": "2023-07-21T15:00:00+00:00",
-        "priorityCode": "000",
+        "priorityCode": 0,
+        "orderDueDate": "Aug 3, 2023 3:00:00 PM",
         "orderDates": {
-            "customerPickUpByDate": "2023-07-22T09:59:59+00:00"
+            "customerPickUpByDate": "Aug 4, 2023 9:59:59 AM",
+            "additionalProperties": {}
         },
         "dispatchMethodCode": 1,
-        "orderTotal": "645.00",
+        "orderTotal": 645.0,
+        "instructions": [],
         "pickupDetails": {
-            "slot": {
-                "startTime": "06:00",
-                "endTime": "08:00"
-            },
             "pickupPersonDetails": [
                 {
                     "contact": {
@@ -74,58 +72,135 @@ const initialData = {
                         "phone": "9977883344",
                         "email": "jamestest@gmail.com"
                     },
-                    "isPrimary": true
+                    "isPrimary": true,
+                    "additionalProperties": {}
                 }
             ]
         },
         "orderLines": [
             {
-                "lineNbr": 2,
+                "lineNbr": 1,
                 "quantity": {
-                    "value": 5,
+                    "value": 1,
                     "uom": "EACH"
                 },
+                "instructions": [],
                 "isSubstitutionAllowed": true,
-                "isManualSubAllowed": true,
-                "itemOnHandQty": 63,
-                "webUnitPrice": 4.0,
-                "storeUnitPrice": 4.38,
-                "itemNbr": 570178682,
+                "storeUnitPrice": 78.0,
+                "webUnitPrice": 78.0,
                 "itemDesc": "TTNO PZ RL PEPP 50CT",
-                "imageUrl": "https://i5.walmartimages.com/asr/41456e26-5907-4b47-919ff795960c9a79_1.96f4c097407ed2b7d5e887113152ee9c.jpeg",
+                "imageUrl": "https://i5.walmartimages.com/asr/41456e26-5907-4b47-919f-f795960c9a79_1.96f4c097407ed2b7d5e887113152ee9c.jpeg",
                 "department": {
-                    "deptNbr": 78
-                },
-                "lineDisplayAttributes": {
-                    "itemNbr": "570178682",
-                    "color": "Pink"
-                },
-                "metafields": {
-                    "minIdealPickDays": 0,
-                    "maxIdealPickDays": 0,
-                    "isSellbyDateRequired": false,
-                    "isOrderByQuantity": true
+                    "deptNbr": 95,
+                    "deptName": "Default Dept STWMMHGJ",
+                    "deptSequence": 63
                 },
                 "locations": [
                     {
-                        "zoneName": "W",
-                        "aisleName": "2",
-                        "sectionName": "9",
-                        "type": "SALESFLOOR",
-                        "sectionId": "1",
-                        "positionSeqNbr": 1,
-                        "shelfIds": 2,
-                        "shelfPosition": 3
+                        "zoneName": "Y",
+                        "aisleName": "6"
                     }
                 ],
                 "products": [
                     {
-                        "productId": "873624",
-                        "type": "ORDERED",
-                        "barcode": "42800109538",
-                        "barcodeType": "GTIN"
+                        "barcode": "",
+                        "barcodeType": "UPC"
                     }
-                ]
+                ],
+                "smartSubs": []
+            },
+            {
+                "lineNbr": 2,
+                "quantity": {
+                    "value": 2,
+                    "uom": "EACH"
+                },
+                "instructions": [],
+                "isSubstitutionAllowed": true,
+                "storeUnitPrice": 78.0,
+                "webUnitPrice": 78.0,
+                "itemDesc": "TTNO PZ RL PEPP 50CT",
+                "imageUrl": "https://i5.walmartimages.com/asr/41456e26-5907-4b47-919f-f795960c9a79_1.96f4c097407ed2b7d5e887113152ee9c.jpeg",
+                "department": {
+                    "deptNbr": 95,
+                    "deptName": "Default Dept STWMMHGJ",
+                    "deptSequence": 63
+                },
+                "locations": [
+                    {
+                        "zoneName": "Y",
+                        "aisleName": "6"
+                    }
+                ],
+                "products": [
+                    {
+                        "barcode": "",
+                        "barcodeType": "UPC"
+                    }
+                ],
+                "smartSubs": []
+            },
+            {
+                "lineNbr": 3,
+                "quantity": {
+                    "value": 3,
+                    "uom": "EACH PEB"
+                },
+                "instructions": [],
+                "isSubstitutionAllowed": true,
+                "storeUnitPrice": 78.0,
+                "webUnitPrice": 78.0,
+                "itemDesc": "TTNO PZ RL PEPP 50CT",
+                "imageUrl": "https://i5.walmartimages.com/asr/41456e26-5907-4b47-919f-f795960c9a79_1.96f4c097407ed2b7d5e887113152ee9c.jpeg",
+                "department": {
+                    "deptNbr": 95,
+                    "deptName": "Default Dept STWMMHGJ",
+                    "deptSequence": 63
+                },
+                "locations": [
+                    {
+                        "zoneName": "Y",
+                        "aisleName": "6"
+                    }
+                ],
+                "products": [
+                    {
+                        "barcode": "",
+                        "barcodeType": "UPC"
+                    }
+                ],
+                "smartSubs": []
+            },
+            {
+                "lineNbr": 4,
+                "quantity": {
+                    "value": 4,
+                    "uom": "PURE WEIGHTED"
+                },
+                "instructions": [],
+                "isSubstitutionAllowed": true,
+                "storeUnitPrice": 78.0,
+                "webUnitPrice": 78.0,
+                "itemDesc": "TTNO PZ RL PEPP 50CT",
+                "imageUrl": "https://i5.walmartimages.com/asr/41456e26-5907-4b47-919f-f795960c9a79_1.96f4c097407ed2b7d5e887113152ee9c.jpeg",
+                "department": {
+                    "deptNbr": 95,
+                    "deptName": "Default Dept STWMMHGJ",
+                    "deptSequence": 63
+                },
+                "locations": [
+                    {
+                        "zoneName": "Y",
+                        "aisleName": "6"
+                    }
+                ],
+                "products": [
+                    {
+                        "barcode": "",
+                        "barcodeType": "UPC"
+                    }
+                ],
+                "smartSubs": []
             }
         ]
     }
@@ -175,9 +250,9 @@ const FaaS = () => {
     useEffect(() => {
         if (faasTableData?.order) {
             const productData = flattenObject(faasTableData?.order)
-            const data = productData?.map(key => ({ key: key.key, value: key.value, ...key.children && { children: key.children } }));
-            console.log(data)
-            setRefinedRequiredFieldData(data)
+            // const data = productData?.map(key => ({ key: key.key, value: key.value, ...key.children && { children: key.children } }));
+            console.log(productData)
+            setRefinedRequiredFieldData(productData)
         }
 
     }, [faasTableData]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -207,44 +282,42 @@ const FaaS = () => {
         setFaasTableData(fileName)
     }
 
+    const uniqueKeyGenerator = (() => {
+        let counter = 0;
+
+        return () => {
+            counter++;
+            return `${counter}`;
+        };
+    })();
+
     function flattenObject(obj, parentKey = "") {
         let flattenedArray = [];
-
         for (const key in obj) {
             if (Array.isArray(obj[key])) {
                 const childrenArray = obj[key].map((item) => flattenObject(item));
                 if (childrenArray.length > 1 || key === "orderLines") {
-                    childrenArray.map((item) => {
-                        return item.forEach((obj) => {
-                            obj.key = `${obj.key + "_" + item[0].value}`;
-                            if (obj.children) {
-                                obj.children.forEach((subItem) => {
-                                    subItem.key = `${subItem.key + "_" + item[0].value}`;
-                                });
-                            }
-                        });
-                    })
                     let orderLineArray = childrenArray.map((arr) => {
                         return {
-                            key: arr[0].key.replace(/_/g, '__'),
+                            key: uniqueKeyGenerator(),
+                            label: `${arr[0].label + "_" + arr[0].value}`,
                             value: "",
                             children: arr
                         }
                     })
-                    flattenedArray.push({ key: parentKey + key, value: '', children: orderLineArray });
+                    flattenedArray.push({ key: uniqueKeyGenerator(), label: parentKey + key, children: orderLineArray });
                 } else {
-                    flattenedArray.push({ key: parentKey + key, value: '', children: childrenArray.flat() });
+                    flattenedArray.push({ key: uniqueKeyGenerator(), label: parentKey + key, children: childrenArray.flat() });
                 }
             } else if (typeof obj[key] === "object" && obj[key] !== null) {
                 const nestedArray = flattenObject(obj[key], `${parentKey}${key}.`);
                 flattenedArray = flattenedArray.concat(nestedArray);
             } else {
-                const flatKey = `${parentKey}${key}`;
+                const flatKey = `${parentKey}${key} `;
                 const value = obj[key] === null ? null : (typeof obj[key] === "string" ? obj[key] : JSON.stringify(obj[key]));
-                flattenedArray.push({ key: flatKey, value: value });
+                flattenedArray.push({ key: uniqueKeyGenerator(), label: flatKey.trim(), value: value });
             }
         }
-
         return flattenedArray;
     }
 
@@ -256,12 +329,12 @@ const FaaS = () => {
         const output = {};
 
         for (const item of input) {
-            const keys = item.key.split('.');
+            const labels = item.label.split('.');
             let currentOutput = output;
 
             // Traverse through the keys to dynamically create the nested structure
-            for (let i = 0; i < keys.length - 1; i++) {
-                const key = keys[i];
+            for (let i = 0; i < labels.length - 1; i++) {
+                const key = labels[i];
                 if (!currentOutput[key]) {
                     currentOutput[key] = {};
                 }
@@ -269,7 +342,7 @@ const FaaS = () => {
             }
 
             // Set the value to the final nested key
-            const lastKey = keys[keys.length - 1];
+            const lastKey = labels[labels.length - 1];
             const value = item.value === '' ? null : convertValue(item.value);
             currentOutput[lastKey] = value;
 
@@ -278,7 +351,22 @@ const FaaS = () => {
                 if (!currentOutput[lastKey]) {
                     currentOutput[lastKey] = [];
                 }
-                currentOutput[lastKey].push(convertData(item.children));
+                if (lastKey === "orderLines") {
+                    let myObject = convertData(item.children)
+                    let upDatedOrderLines = [];
+                    for (const lineNbr in myObject) {
+                        if (myObject.hasOwnProperty(lineNbr)) {
+                            const array = myObject[lineNbr];
+                            for (const object of array) {
+                                upDatedOrderLines.push(object);
+                                // Do something with each object
+                            }
+                        }
+                    }
+                    currentOutput[lastKey].push(...upDatedOrderLines);
+                } else {
+                    currentOutput[lastKey].push(convertData(item.children));
+                }
             }
         }
 
@@ -367,7 +455,7 @@ const FaaS = () => {
     const getTableDetails = () => {
         setFaasTableData(initialData);
         setLoader(true);
-        axios.get(`/faas/adaptor/pfo/orderpfo/${selectedCountry}`)
+        axios.get(`/ faas / adaptor / pfo / orderpfo / ${selectedCountry} `)
             .then(res => {
                 setFaasTableData(res.data);
                 setOpen(["1"]);
@@ -377,7 +465,7 @@ const FaaS = () => {
     }
     const checkStatus = () => {
         setLoader(true);
-        axios.get(`/faas/adaptor/getOrderStatusFromFos?searchMethod=CUST_ORDER_ID&searchValue=${inputValue}`,
+        axios.get(`/ faas / adaptor / getOrderStatusFromFos ? searchMethod = CUST_ORDER_ID & searchValue=${inputValue} `,
             {
                 headers: {
                     'X-countryCode': selectedCountry,
@@ -521,8 +609,8 @@ const FaaS = () => {
                                                             <Col align="middle" span={12}>
                                                                 <EditableTable
                                                                     tableData={refinedRequiredFieldData}
-                                                                    syncChangesInParent={(data) =>
-                                                                        setRequiredFieldsTableData(data)
+                                                                    syncChangesInParent={(productData) =>
+                                                                        setRequiredFieldsTableData(productData)
                                                                     }
                                                                 />
                                                             </Col>
@@ -552,7 +640,7 @@ const FaaS = () => {
                                                 type="primary"
                                                 style={{ marginLeft: "15px" }}
                                                 onClick={triggerSubmitAPI}
-                                                disabled={selectedCountry === "Select" || selectedTenantId === "Select" || selectedEnvironment === "Select" || selectedStore === "Select"}
+                                            // disabled={selectedCountry === "Select" || selectedTenantId === "Select" || selectedEnvironment === "Select" || selectedStore === "Select"}
                                             >
                                                 Submit
                                             </Button>

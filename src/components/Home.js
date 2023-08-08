@@ -8,35 +8,68 @@ const Home = () => {
 
   const columns = [
     {
-      title: 'Key',
-      dataIndex: 'key',
-      key: 'key',
+      title: 'Name',
+      dataIndex: 'name',
     },
     {
-      title: 'Value',
-      dataIndex: 'value',
-      key: 'value',
+      title: 'Chinese Score',
+      dataIndex: 'chinese',
+      sorter: {
+        compare: (a, b) => a.chinese - b.chinese,
+        multiple: 3,
+      },
+    },
+    {
+      title: 'Math Score',
+      dataIndex: 'math',
+      sorter: {
+        compare: (a, b) => a.math - b.math,
+        multiple: 2,
+      },
+    },
+    {
+      title: 'English Score',
+      dataIndex: 'english',
+      sorter: {
+        compare: (a, b) => a.english - b.english,
+        multiple: 1,
+      },
     },
   ];
   const data = [
     {
-      key: 'Key 1',
-      value: 'Value 1',
-      childrenData: [
-        { key: 'Child 1', value: 'Child Value 1' },
-        { key: 'Child 2', value: 'Child Value 2' },
-      ],
+      key: '1',
+      name: 'John Brown',
+      chinese: 98,
+      math: 60,
+      english: 70,
     },
     {
-      key: 'Key 2',
-      value: 'Value 2',
-      childrenData: [
-        { key: 'Child 3', value: 'Child Value 3' },
-        { key: 'Child 4', value: 'Child Value 4' },
-      ],
+      key: '2',
+      name: 'Jim Green',
+      chinese: 98,
+      math: 66,
+      english: 89,
     },
-    // Add more data here if needed
+    {
+      key: '3',
+      name: 'Joe Black',
+      chinese: 98,
+      math: 90,
+      english: 70,
+    },
+    {
+      key: '4',
+      name: 'Jim Red',
+      chinese: 88,
+      math: 99,
+      english: 89,
+    },
   ];
+
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log('params', pagination, filters, sorter, extra);
+  };
 
   return (
     <React.Fragment>
@@ -51,14 +84,7 @@ const Home = () => {
             <p className="h3 display-3">
               Crash Course <span className="fw-bold">2022</span>
             </p>
-            <Collapse accordion>
-              {data.map((item, index) => (
-                <Panel header={item.key} key={index}>
-                  <p>{item.value}</p>
-                  <Table dataSource={item.childrenData} columns={columns} pagination={false} />
-                </Panel>
-              ))}
-            </Collapse>
+            <Table columns={columns} dataSource={data} onChange={onChange} />
           </div>
         </div>
       </div>

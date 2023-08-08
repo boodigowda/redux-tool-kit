@@ -42,7 +42,8 @@ const EditableCell = ({
     const handleCreate = (data) => {
         if (data) {
             let finalObject = {
-                key: data[0].key.replace(/_/g, '__'),
+                key: Date.now(),
+                label: `${data[0].label + "_" + data[0].value}`,
                 value: "",
                 children: data
             };
@@ -72,7 +73,7 @@ const EditableCell = ({
     };
     let childNode = children;
     if (editable) {
-        let Key = record.key.replace(/_\d+$/, '');
+        let Label = record?.label
         childNode = editing ? (
             <Form.Item
                 style={{
@@ -87,19 +88,19 @@ const EditableCell = ({
                 ]}
             >
                 {
-                    Key === "quantity.uom" ?
-                        <Select ref={inputRef} value={uom} onPressEnter={save} onBlur={save} options={[
+                    Label === "quantity.uom" ?
+                        <Select ref={inputRef} onPressEnter={save} onBlur={save} value={uom} options={[
                             { value: "Each" },
                             { value: "Each PEB" },
                             { value: "K" },
                             { value: "Pure Weighted" },
                         ]} />
-                        : Key === "isSubstitutionAllowed" ?
+                        : Label === "isSubstitutionAllowed" ?
                             <Select ref={inputRef} onPressEnter={save} onBlur={save} defaultValue={record.value} options={[
                                 { value: "true" },
                                 { value: "false" }
                             ]} />
-                            : Key === "isManualSubAllowed" ?
+                            : Label === "isManualSubAllowed" ?
                                 <Select ref={inputRef} onPressEnter={save} onBlur={save} defaultValue={record.value} options={[
                                     { value: "true" },
                                     { value: "false" }
@@ -109,7 +110,7 @@ const EditableCell = ({
                 }
             </Form.Item>
         ) : (
-            record.key === "orderLines" ?
+            record?.label === "orderLines" ?
                 <>
                     <Button onClick={onAddOrderLine} className="custom-button">
                         <Space>
@@ -137,7 +138,7 @@ const EditableTable = ({ tableData, syncChangesInParent }) => {
     const defaultColumns = [
         {
             title: "Key",
-            dataIndex: "key",
+            dataIndex: "label",
             width: "40%",
             editable: false,
         },
@@ -145,6 +146,12 @@ const EditableTable = ({ tableData, syncChangesInParent }) => {
             title: "Value",
             dataIndex: "value",
             editable: true,
+        },
+        {
+            title: "",
+            dataIndex: "key",
+            width: "7%",
+            editable: false
         },
     ];
     useEffect(() => {
@@ -183,10 +190,10 @@ const EditableTable = ({ tableData, syncChangesInParent }) => {
 
             const result = findKeyIndices(newData, row.key);
             if (result) {
-                let isOrderLineAdd = row?.key?.substring(0, row.key.length - 2);
+                let isOrderLineAdd = row?.label?.slice(0, -1);
                 if (isOrderLineAdd === "lineNbr_") {
                     newData.map((item) => {
-                        if (item.key === "orderLines") {
+                        if (item.label === "orderLines") {
                             item.children.push(row)
                         }
                         return null
@@ -229,6 +236,7 @@ const EditableTable = ({ tableData, syncChangesInParent }) => {
             }),
         };
     });
+
     return (
         <div>
             <Table

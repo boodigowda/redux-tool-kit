@@ -1,3 +1,31 @@
-body{
+body {
   font-family: Calibri, sans-serif;
+}
+
+/* 
+.grid-data-table {
+  color: red;
+  border: 10px solid;
+} */
+
+/* border-top: 1px solid #f0f0f0; */
+
+/* .grid-data-table .ant-table-container {
+  border-top-color: red;
+} */
+.ant-table-wrapper .ant-table.ant-table-bordered>.ant-table-container {
+  border-inline-start: 1px solid #f0f0f0;
+  border-top: none;
+}
+
+.grid-data-table .ant-table-thead td:nth-child(3) {
+  display: none;
+}
+
+.grid-data-table .ant-table-thead tr th {
+  border-top: 1px solid #f0f0f0;
+}
+
+.grid-data-table .ant-table-tbody td:nth-child(3) {
+  display: none;
 }
